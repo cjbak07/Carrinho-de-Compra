@@ -2,114 +2,97 @@
 
 class Cart
 {
-    private array $itens = [];
+    private array $items = [];
     private array $products = [];
 
-    public function __construct(array &$products)
+    public function __construct()
     {
-        $this-> products = &$products;
+        $this->products = [
+            ['id' => 1, 'name' => 'T-Shirt', 'price' => 59.90, 'stock' => 10],
+            ['id' => 2, 'name' => 'Blusa moletom', 'price' => 129.90, 'stock' => 20],
+            ['id' => 3, 'name' => 'Calça Jeans', 'price' => 199.90, 'stock' => 30],
+        ];
     }
 
-    // ADICIONANDO ITEM AO CARRINHO
-    public function addItem(int $id, int $quantity) : string
+    public function addItem(int $id, int $quantity): string
     {
-        $product = $this -> findProduct($id);
-
-        if (!$product)
-        {
+        $product = $this->findProduct($id);
+        if (!$product) { 
             return "Produto não encontrado.";
         }
-
-        if ($product['stock'] < $quantity)
-        {
+        if ($product['stock'] < $quantity) {
             return "Estoque insuficiente.";
         }
 
-        foreach ($this -> products as &$p)
-        {
-            if ($p['id'] === $id)
-            {
+        foreach ($this->products as &$p) {
+            if ($p['id'] === $id) {
                 $p['stock'] -= $quantity;
             }
         }
 
-        if (isset ($this -> itens[$id]))
-        {
-            $this -> itens[$id]['quantity'] += $quantity;
+        if (isset($this->items[$id])) {
+            $this->items[$id]['quantity'] += $quantity;
         } else {
-            $this -> itens[$id] = [
+            $this->items[$id] = [
                 'product_id' => $id,
                 'quantity' => $quantity,
                 'price' => $product['price'],
                 'name' => $product['name'],
             ];
         }
-
         return "Produto adicionado!";
     }
 
-    // REMOVENDO ITEM DO CARRINHO
-    public function removeItem(int $id) : string
+    public function removeItem(int $id): string
     {
-        if (!isset($this -> itens[$id]))
-        {
+        if (!isset($this->items[$id])) {
             return "Produto não está no carrinho.";
         }
 
-        foreach ($this -> products as &$p)
-        {
-            if ($p['id'] === $id)
-            {
-                $p['stock'] += $this -> itens[$id]['quantity'];
+        foreach ($this->products as &$p) {
+            if ($p['id'] === $id) {
+                $p['stock'] += $this->items[$id]['quantity'];
             }
         }
-
-        unset($this -> itens[$id]);
+        unset($this->items[$id]);
         return "Produto removido!";
     }
 
-    // LISTANDO ITENS
-    
-    public function listItens() : array
+    public function listItems(): array
     {
         $output = [];
-
-        foreach ($this -> itens as $item)
-        {
-            $subtotal = $item['quantity'] * $item['price'];
+        foreach ($this->items as $item) {
             $output[] = [
-                'name' => $item['name'],
+                'name'     => $item['name'],
                 'quantity' => $item['quantity'],
-                'subtotal' => $subtotal,
+                'subtotal' => $item['quantity'] * $item['price'],
             ];
         }
-
         return $output;
     }
 
-    public function getTotal() : float
+    public function getTotal(): float
     {
-        $sum = 0;
-
-        foreach ($this -> itens as $item)
-        {
+        $sum = 0.0;
+        foreach ($this->items as $item) {
             $sum += $item['quantity'] * $item['price'];
         }
         return $sum;
     }
 
-    private function findProduct(int $id) : ?array
+    public function applyDiscount(float $total, string $coupon): float
     {
-        foreach ($this -> products as $p)
-        {
-            if ($p['id'] === $id)
-            {
-                return $p;
-            }
+        if ($coupon === "DISCOUNT10") {
+            return $total * 0.9;
         }
-
-        return null;
+        return $total;
     }
 
-    
+    private function findProduct(int $id): ?array
+    {
+        foreach ($this->products as $p) {
+            if ($p['id'] === $id) return $p;
+        }
+        return null;
+    }
 }
