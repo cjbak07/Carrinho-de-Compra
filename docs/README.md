@@ -19,7 +19,7 @@ Carrinho-de-Compra/
 ├─ docs/
 │ └─ documentação.md # Documentação adicional (opcional)
 └─ README.md
-
+```
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Instruções de Execução (XAMPP)
