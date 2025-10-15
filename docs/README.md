@@ -11,6 +11,7 @@ Projeto de carrinho de compras em PHP, onde é possível adicionar produtos, rem
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Estrutura de Pastas
+```
 Carrinho-de-Compra/
 ├─ src/
 │ ├─ Cart.php # Classe do carrinho
