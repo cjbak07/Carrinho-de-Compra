@@ -81,3 +81,4 @@ $cart->addItem(2, 1); // 1 Blusa moletom
 $total = $cart->getTotal();
 echo "Total sem desconto: R$ $total <br>";
 echo "Total com desconto: R$ " . $cart->applyDiscount($total, "DISCOUNT10") . "<br>";
+```
