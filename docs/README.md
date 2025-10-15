@@ -69,14 +69,11 @@ require 'Cart.php';
 
 $cart = new Cart();
 
-// Adicionar produtos
 echo $cart->addItem(1, 2) . "<br>"; // 2 T-Shirts
 echo $cart->addItem(3, 10) . "<br>"; // 10 Calças Jeans
 
-// Remover produto
 echo $cart->removeItem(1) . "<br>"; // Remove T-Shirt
 
-// Total e desconto
 $cart->addItem(2, 1); // 1 Blusa moletom
 $total = $cart->getTotal();
 echo "Total sem desconto: R$ $total <br>";
